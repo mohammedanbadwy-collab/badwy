@@ -1,0 +1,48 @@
+function sendBooking() {
+    const name = document.getElementById("name").value.trim();
+    const phone = document.getElementById("phone").value.trim();
+    const from = document.getElementById("from").value.trim();
+    const to = document.getElementById("to").value.trim();
+    const moveDate = document.getElementById("moveDate").value;
+    const moveTime = document.getElementById("moveTime").value;
+    const userNotes = document.getElementById("userNotes").value.trim();
+    const msg = document.getElementById("msg");
+
+    if (!name || !phone || !from || !to) {
+        msg.style.color = "red";
+        msg.textContent = "من فضلك املأ جميع البيانات الأساسية!";
+        return;
+    }
+
+    // رقم واتساب الشركة بالكود الدولي لمصر
+    const myWhatsAppNumber = "201153166194";
+
+    // تجهيز رسالة الحجز
+    const messageText =
+        `🔹 *طلب حجز جديد - النسر الذهبي* 🔹\n\n` +
+        `👤 *الاسم:* ${name}\n` +
+        `📞 *الموبايل:* ${phone}\n` +
+        `🛠️ *الخدمة:* ${currentService}\n` +
+        `💰 *السعر المقدر:* ${currentPriceValue}\n` +
+        `📍 *منين:* ${from}\n` +
+        `🏁 *لفين:* ${to}\n` +
+        `📅 *التاريخ:* ${moveDate || "غير محدد"}\n` +
+        `⏰ *الفترة:* ${moveTime}\n` +
+        `💬 *ملاحظات العميل:* ${userNotes || "لا توجد ملاحظات"}`;
+
+    // تشفير الرسالة
+    const encodedMessage = encodeURIComponent(messageText);
+
+    // إنشاء رابط واتساب
+    const whatsappUrl =
+        "https://api.whatsapp.com/send?phone=" +
+        myWhatsAppNumber +
+        "&text=" +
+        encodedMessage;
+
+    msg.style.color = "green";
+    msg.textContent = "جاري فتح واتساب لإرسال طلب الحجز...";
+
+    // التحويل مباشرة بدون setTimeout
+    window.location.href = whatsappUrl;
+}
